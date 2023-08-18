@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Livros</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(to bottom right, #ffffff, #00bfff, #0033ff, #d6cbda);
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        /* .container{
+            margin-top: -700px;
+            margin-left: 00px;
+        } */
+        .container{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 150px;
+        }
+        .caixa {
+            width: 300px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+        }
+
+        .caixa h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .botoes {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background-color: #0033ff;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #001f7e;
+            color: rgb(207, 205, 205);
+        }
+
+        .resultado {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        img {
+            width: 1000px;
+            height: auto;
+        }
+
+        .img {
+            display: flex;
+            justify-content: center;
+            margin-top: 100px;
+        }
+
+        #anterior,
+        #proximo {
+            background-color: #0033ff;
+            color: #FFFBF5;
+            width: 200px;
+            height: 50px;
+        }
+
+        button {
+            margin: 10px;
+            width: 100px;
+        }
+
+        .botoes1 {
+            display: flex;
+            justify-content: center;
+            margin-top: 5px;
+        }
+        .carrosel{
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="caixa">
+        <h1>Cadastro de Livros</h1>
+        <input type="text" id="nomeLivro" placeholder="Nome">
+        <input type="text" id="autorLivro" placeholder="Autor">
+        <input type="text" id="anoLivro" placeholder="Ano">
+        <div class="botoes">
+            <button onclick="adicionar()">Adicionar Livro</button>
+            <button onclick="mostrarLivros()">Mostrar</button>
+        </div>
+        <h1 class="Mostraro">Lista de Livros</h1>
+        <p class="resultado" id="resultado"></p>
+        <ul id="limpar"></ul>
+    </div>
+
+    <!-- Carrosel -->
+    <div class="carrossel">
+        <div class="img">
+            <img src="" alt="Imagem do Carrossel" id="carrosselImagem">
+        </div>
+        <div class="botoes1">
+            <button id="anterior">Anterior</button>
+            <button id="proximo">Próximo</button>
+        </div>
+</div>
+    <script>
+
+        let biblioteca = [];
+
+        function cadastro(nome, autor, ano) {
+            var livro = {
+                titulo: nome,
+                autor: autor,
+                ano: ano
+            };
+            biblioteca.push(livro)
+        }
+
+        function adicionar() {
+            let nome = document.getElementById('nomeLivro').value;
+            let autor = document.getElementById('autorLivro').value;
+            let ano = document.getElementById('anoLivro').value;
+            cadastro(nome, autor, ano);
+        }
+
+        function mostrarLivros() {
+            let resultado = "";
+            let listElement = document.getElementById('limpar');
+            listElement.innerHTML = ""; // Limpa o conteúdo anterior
+
+            for (let livro of biblioteca) {
+                resultado += `Nome: ${livro.titulo}, Autor: ${livro.autor}, Ano: ${livro.ano}<br>`;
+            }
+            document.getElementById('resultado').innerHTML = resultado;
+            if(isNaN(resultado)){
+                resultado ="Informe um número"
+            }
+        }
+
+        let imgIndice = 0;
+        const IMAGENS = ['img1.avif', 'img2.avif', 'img3.avif', 'img4.avif'];
+        const prevButton = document.getElementById('anterior');
+        const nextButton = document.getElementById('proximo');
+        var IMG = document.getElementById('carrosselImagem');
+
+        function carregar() {
+            IMG.src = IMAGENS[imgIndice];
+        }
+
+        carregar(); // Carrega a primeira imagem ao carregar a página
+
+        prevButton.addEventListener('click', () => {
+            --imgIndice;
+            if (imgIndice < 0) {
+                imgIndice = IMAGENS.length - 1;
+            }
+            carregar();
+        });
+
+        nextButton.addEventListener('click', () => {
+            ++imgIndice;
+            if (imgIndice >= IMAGENS.length) {
+                imgIndice = 0;
+            }
+            carregar();
+        });
+
+        
+
+
+    </script>
+</body>
+</html>
